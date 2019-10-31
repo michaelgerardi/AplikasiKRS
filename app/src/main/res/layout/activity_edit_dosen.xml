@@ -158,12 +158,12 @@
         android:id="@+id/button2"
         android:layout_width="238dp"
         android:layout_height="49dp"
+        android:layout_marginBottom="260dp"
         android:backgroundTint="#03A9F4"
         android:text="Simpan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.291" />
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
