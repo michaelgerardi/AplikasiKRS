@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,13 @@ public class DaftarIsiActivity extends AppCompatActivity {
                         { Toast.makeText(DaftarIsiActivity.this, "Tidak Logout", Toast.LENGTH_SHORT).show(); } })
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int which)
                         { Toast.makeText(DaftarIsiActivity.this, "Behasil Logout !!", Toast.LENGTH_SHORT).show();
+                            SharedPreferences prefs = DaftarIsiActivity.this.getSharedPreferences
+                                    ("prefs_file", MODE_PRIVATE);
+                            String statusLogin = prefs.getString
+                                    ("isLogin", null);
+                            SharedPreferences.Editor edit = prefs.edit();
+                            edit.putString("isLogin", null);
+                            edit.commit();
                             Intent intent = new Intent(DaftarIsiActivity.this,MainActivity.class);
                             startActivity(intent);
                         }});
