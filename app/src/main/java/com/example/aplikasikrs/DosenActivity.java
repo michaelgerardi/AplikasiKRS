@@ -21,8 +21,10 @@ public class DosenActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.layout,menu);
+
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -90,4 +92,6 @@ public class DosenActivity extends AppCompatActivity {
             startActivity(intent);
         }
     };
+
+
 }

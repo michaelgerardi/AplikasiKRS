@@ -2,6 +2,8 @@ package com.example.aplikasikrs.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,9 @@ import com.example.aplikasikrs.Cruddosen;
 import com.example.aplikasikrs.EditDosenActivity;
 import com.example.aplikasikrs.Model.Dosen;
 import com.example.aplikasikrs.R;
+import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -46,21 +50,21 @@ public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder Dosen, int position) {
+
         Dosen.txtNIDN.setText(DosenArrayList.get(position).getNIDN());
         Dosen.txtNamaDosen.setText(DosenArrayList.get(position).getNamaDosen());
         Dosen.txtGelar.setText(DosenArrayList.get(position).getGelar());
         Dosen.txtEmail.setText(DosenArrayList.get(position).getEmail());
         Dosen.txtAlamat.setText(DosenArrayList.get(position).getAlamat());
-        Dosen.img.setImageResource(DosenArrayList.get(position).getImg());
-        Dosen.cd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(context !=null){
-                    Intent intent = new Intent(context,EditDosenActivity.class);
-                    context.startActivity(intent);
-                }
-            }
-        });
+        Dosen.img.getLayoutParams().width=100;
+        Dosen.img.getLayoutParams().height=100;
+        if (DosenArrayList.get(position).getImg()!=null){
+            Picasso.with(this.context)
+            .load(DosenArrayList.get(position).getImg())
+            .into(Dosen.img);
+        }
+
+
 
     }
 

@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 edit.commit();
                 Intent intent = new Intent(MainActivity.this, DaftarIsiActivity.class);
                 startActivity(intent);
-            } else {
-
             }
         }
 

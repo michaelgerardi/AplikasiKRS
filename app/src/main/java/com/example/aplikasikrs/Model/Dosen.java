@@ -1,14 +1,30 @@
 package com.example.aplikasikrs.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Dosen {
-    public Dosen(String NIDN, String namaDosen, String gelar, String email, int img, String alamat) {
-        this.NIDN = NIDN;
-        NamaDosen = namaDosen;
-        Gelar = gelar;
-        Email = email;
-        Img = img;
-        Alamat = alamat;
-    }
+    @SerializedName("nidn")
+    @Expose
+    private String NIDN;
+    @SerializedName("nama")
+    @Expose
+    private String NamaDosen;
+    @SerializedName("gelar")
+    @Expose
+    private String Gelar;
+    @SerializedName("email")
+    @Expose
+    private String Email;
+    @SerializedName("foto")
+    @Expose
+    private String Img;
+    @SerializedName("alamat")
+    @Expose
+    private String Alamat;
+    @SerializedName("id")
+    @Expose
+    private String id;
 
     public String getNIDN() {
         return NIDN;
@@ -42,11 +58,11 @@ public class Dosen {
         Email = email;
     }
 
-    public int getImg() {
+    public String getImg() {
         return Img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         Img = img;
     }
 
@@ -58,10 +74,25 @@ public class Dosen {
         Alamat = alamat;
     }
 
-    private String NIDN;
-    private String NamaDosen;
-    private String Gelar;
-    private String Email;
-    private int Img;
-    private String Alamat;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Dosen(String NIDN, String namaDosen, String gelar, String email, String img, String alamat, String id) {
+        this.NIDN = NIDN;
+        NamaDosen = namaDosen;
+        Gelar = gelar;
+        Email = email;
+        Img = img;
+        Alamat = alamat;
+        this.id = id;
+    }
+
+
+
+
 }
