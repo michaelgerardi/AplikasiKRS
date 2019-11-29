@@ -31,7 +31,7 @@ public class EditDosenActivity extends AppCompatActivity {
                     { Toast.makeText(EditDosenActivity.this, "Tidak Menyimpan", Toast.LENGTH_SHORT).show(); } })
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int which)
                     { Toast.makeText(EditDosenActivity.this, "Behasil Menyimpan !!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(EditDosenActivity.this,DaftarIsiActivity.class);
+                        Intent intent = new Intent(EditDosenActivity.this,Cruddosen.class);
                         startActivity(intent);
                     }});
             AlertDialog dialog = builder.create(); dialog.show();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,8 @@ public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.ViewHolder> 
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder
+    implements View.OnCreateContextMenuListener{
 
         private TextView txtNIDN, txtNamaDosen, txtGelar, txtEmail, txtAlamat;
         private ImageView img;
@@ -90,7 +92,17 @@ public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.ViewHolder> 
             txtAlamat = view.findViewById(R.id.Alamat_dosen);
             img = view.findViewById(R.id.Foto_Dosen);
             cd = view.findViewById(R.id.CV_dosen);
+            view.setOnCreateContextMenuListener(this);
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu Menu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            Menu.setHeaderTitle("Silahkan Pilih");
+            Menu.add(this.getAdapterPosition(),view.getId(),0,"Ubah data dosen ");
+            Menu.add(this.getAdapterPosition(),view.getId(),0,"Delete data dosen ");
+        }
+
+
     }
 
 }

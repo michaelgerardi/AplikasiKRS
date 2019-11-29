@@ -133,14 +133,12 @@
 
     <Button
         android:id="@+id/btn_cari_foto"
-        android:layout_width="206dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="109dp"
+        android:layout_height="48dp"
         android:text="Browse"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.44"
-        app:layout_constraintStart_toEndOf="@+id/textView39"
-        app:layout_constraintTop_toBottomOf="@+id/txt_email_dosen_1" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_foto_dosen" />
 
     <Button
         android:id="@+id/btn_simpan_dosen"
@@ -151,4 +149,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_cari_foto" />
+
+    <EditText
+        android:id="@+id/txt_foto_dosen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="foto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView39"
+        app:layout_constraintTop_toBottomOf="@+id/txt_email_dosen_1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
