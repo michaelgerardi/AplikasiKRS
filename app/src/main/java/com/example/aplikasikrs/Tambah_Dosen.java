@@ -3,12 +3,22 @@ package com.example.aplikasikrs;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,9 +27,16 @@ import com.example.aplikasikrs.Model.Dosen;
 import com.example.aplikasikrs.Network.GetDataService;
 import com.example.aplikasikrs.Network.RetrofitClientInstance;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Url;
 
 public class Tambah_Dosen extends AppCompatActivity {
     private EditText nama_dosen;
@@ -31,12 +48,67 @@ public class Tambah_Dosen extends AppCompatActivity {
     Boolean isUpdate = false;
     String idDosen= "";
     ProgressDialog progressDialog;
+    final  int Request_Gallery = 9544;
+    Bitmap bitmap;
+    ImageView part_image;
+    String Image;
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            if (resultCode == RESULT_OK){
+               if (requestCode == Request_Gallery){
+                   Uri  dataimage = data.getData();
+                   String[] imageprojection = {MediaStore.Images.Media.DATA};
+                   Cursor cursor =  getContentResolver().query(dataimage,imageprojection,null,null,null);
+                   if (cursor!= null){
+                       cursor.moveToFirst();
+                       int indexImage = cursor.getColumnIndex(imageprojection[0]);
+                       Image = cursor.getString(indexImage);
+                       if(Image != null){
+                           File gambar = new File(Image);
+                           part_image.setImageBitmap(BitmapFactory.decodeFile(gambar.getAbsolutePath()));
+                       }
+                   }
+
+               }
+
+            }
+
+    }
+    public static  String ConvertingBitmapToString (Bitmap bitmap){
+        String EncodingImage = " ";
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        EncodingImage = URLEncoder.encode(Base64.encodeToString(byteArrayOutputStream.toByteArray(),Base64.DEFAULT));
+        return EncodingImage;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah__dosen);
         this.setTitle("SI KRS - HAI Michael");
+
+
+        part_image = (ImageView)findViewById(R.id.img_pilih);
+
+        Button btn_carifoto = findViewById(R.id.btn_cari_foto);
+
+
+
+        btn_carifoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Open_gallery"),Request_Gallery);
+            }
+        });
+
+
 
         nama_dosen = (EditText) findViewById(R.id.txt_nama_dosen_1);
         nidn_dosen = (EditText)findViewById(R.id.txt_NIDN_dosen_1);
@@ -83,6 +155,7 @@ public class Tambah_Dosen extends AppCompatActivity {
 
     }
 
+
    private void tambah_data(){
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("masih loading sabar ...");
@@ -90,7 +163,7 @@ public class Tambah_Dosen extends AppCompatActivity {
 
 
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<DefaultResult> call = service.insert_dosen(
+        Call<DefaultResult> call = service.Insert_foto(
                 nama_dosen.getText().toString(),
                 alamat_dosen.getText().toString(),
                 nidn_dosen.getText().toString(),
@@ -151,7 +224,10 @@ public class Tambah_Dosen extends AppCompatActivity {
         });
     }
 
-    void  check_Update(){
+
+
+
+        void  check_Update(){
        Bundle extras = getIntent().getExtras();
        if (extras == null){
            return;
@@ -166,4 +242,5 @@ public class Tambah_Dosen extends AppCompatActivity {
        foto_dosen.setText(extras.getString("foto"));
 
     }
+
 }

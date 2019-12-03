@@ -137,28 +137,43 @@
         android:layout_height="48dp"
         android:text="Browse"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.844"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_foto_dosen" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_email_dosen_1" />
 
     <Button
         android:id="@+id/btn_simpan_dosen"
         android:layout_width="267dp"
         android:layout_height="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:text="simpan"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.625"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cari_foto" />
+        app:layout_constraintTop_toBottomOf="@+id/img_pilih" />
 
     <EditText
         android:id="@+id/txt_foto_dosen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="112dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="foto"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.172"
         app:layout_constraintStart_toEndOf="@+id/textView39"
         app:layout_constraintTop_toBottomOf="@+id/txt_email_dosen_1" />
+
+    <ImageView
+        android:id="@+id/img_pilih"
+        android:layout_width="111dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_cari_foto"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
