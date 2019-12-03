@@ -60,6 +60,19 @@ public interface GetDataService {
             @Field("foto") String foto,
             @Field("nim_progmob") String nim_progmob
     );
+    @FormUrlEncoded
+    @POST("api/progmob/dosen/updatewithfoto")
+    Call<DefaultResult>Update_foto_dosen(
+            @Field("id") String id,
+            @Field("nama") String nama,
+            @Field("nidn") String nidn,
+            @Field("alamat") String alamat,
+            @Field("email") String email,
+            @Field("gelar") String gelar,
+            @Field("foto") String foto,
+            @Field("nim_progmob") String nim_progmob
+    );
+
 
     /*@FormUrlEncoded
     @POST("/si_mapping/api/user_login.php")

@@ -196,7 +196,7 @@ public class Tambah_Dosen extends AppCompatActivity {
         progressDialog.show();
 
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<DefaultResult> call = service.update_dosen(
+        Call<DefaultResult> call = service.Update_foto_dosen(
                 idDosen,
                 nama_dosen.getText().toString(),
                 alamat_dosen.getText().toString(),
