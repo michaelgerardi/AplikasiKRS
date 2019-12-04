@@ -61,7 +61,7 @@ public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.ViewHolder> 
         Dosen.img.getLayoutParams().height=100;
         if (DosenArrayList.get(position).getImg()!=null){
             Picasso.with(this.context)
-            .load(DosenArrayList.get(position).getImg())
+            .load("https://kpsi.fti.ukdw.ac.id/progmob/" +DosenArrayList.get(position).getImg())
             .into(Dosen.img);
         }
 

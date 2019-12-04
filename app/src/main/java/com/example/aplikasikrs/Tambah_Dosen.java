@@ -1,5 +1,6 @@
 package com.example.aplikasikrs;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,18 +19,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.aplikasikrs.Model.DefaultResult;
 import com.example.aplikasikrs.Model.Dosen;
 import com.example.aplikasikrs.Network.GetDataService;
 import com.example.aplikasikrs.Network.RetrofitClientInstance;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -37,6 +42,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.Url;
+import static  android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 
 public class Tambah_Dosen extends AppCompatActivity {
     private EditText nama_dosen;
@@ -48,41 +55,16 @@ public class Tambah_Dosen extends AppCompatActivity {
     Boolean isUpdate = false;
     String idDosen= "";
     ProgressDialog progressDialog;
-    final  int Request_Gallery = 9544;
+    final  int Request_Gallery = 58;
+    final int FILE_ACCESS_REQUES_CODE=58;
     Bitmap bitmap;
     ImageView part_image;
+    EditText text_tulisan;
     String Image;
+    byte[] Imagebyte;
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-            if (resultCode == RESULT_OK){
-               if (requestCode == Request_Gallery){
-                   Uri  dataimage = data.getData();
-                   String[] imageprojection = {MediaStore.Images.Media.DATA};
-                   Cursor cursor =  getContentResolver().query(dataimage,imageprojection,null,null,null);
-                   if (cursor!= null){
-                       cursor.moveToFirst();
-                       int indexImage = cursor.getColumnIndex(imageprojection[0]);
-                       Image = cursor.getString(indexImage);
-                       if(Image != null){
-                           File gambar = new File(Image);
-                           part_image.setImageBitmap(BitmapFactory.decodeFile(gambar.getAbsolutePath()));
-                       }
-                   }
 
-               }
-
-            }
-
-    }
-    public static  String ConvertingBitmapToString (Bitmap bitmap){
-        String EncodingImage = " ";
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-        EncodingImage = URLEncoder.encode(Base64.encodeToString(byteArrayOutputStream.toByteArray(),Base64.DEFAULT));
-        return EncodingImage;
-    }
 
 
     @Override
@@ -91,23 +73,22 @@ public class Tambah_Dosen extends AppCompatActivity {
         setContentView(R.layout.activity_tambah__dosen);
         this.setTitle("SI KRS - HAI Michael");
 
-
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new  String[]{
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            },FILE_ACCESS_REQUES_CODE);
+        }
         part_image = (ImageView)findViewById(R.id.img_pilih);
+        text_tulisan = (EditText)findViewById(R.id.txt_foto_dosen);
+
 
         Button btn_carifoto = findViewById(R.id.btn_cari_foto);
-
-
-
         btn_carifoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"Open_gallery"),Request_Gallery);
+                pilih_gambar();
             }
         });
-
 
 
         nama_dosen = (EditText) findViewById(R.id.txt_nama_dosen_1);
@@ -157,6 +138,7 @@ public class Tambah_Dosen extends AppCompatActivity {
 
 
    private void tambah_data(){
+        String Image = ConvertingBitmapToString();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("masih loading sabar ...");
         progressDialog.show();
@@ -169,7 +151,7 @@ public class Tambah_Dosen extends AppCompatActivity {
                 nidn_dosen.getText().toString(),
                 gelar_dosen.getText().toString(),
                 email_dosen.getText().toString(),
-                "https://picsum.photos/200",
+                Image,
                 "72170100");
         call.enqueue(new Callback<DefaultResult>() {
             @Override
@@ -191,6 +173,7 @@ public class Tambah_Dosen extends AppCompatActivity {
 
     }
     private void update_dosen(){
+        String Image = ConvertingBitmapToString();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("masih loading sabar ...");
         progressDialog.show();
@@ -203,7 +186,7 @@ public class Tambah_Dosen extends AppCompatActivity {
                 nidn_dosen.getText().toString(),
                 gelar_dosen.getText().toString(),
                 email_dosen.getText().toString(),
-                foto_dosen.getText().toString(),
+                Image,
                 "72170100");
         call.enqueue(new Callback<DefaultResult>() {
             @Override
@@ -223,11 +206,52 @@ public class Tambah_Dosen extends AppCompatActivity {
             }
         });
     }
+    // masuk kedalam galeri
+    private void pilih_gambar(){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            String[] minetype={"image/jpeg"};
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent,"Open_gallery"),Request_Gallery);
+
+        }
+    // memasukkan gambar ke ImageView
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == Request_Gallery && resultCode == RESULT_OK && data != null){
+            Uri path = data.getData();
+            try{
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),path);
+                part_image.setImageBitmap(bitmap);
+                part_image.setVisibility(View.VISIBLE);
+                text_tulisan.setVisibility(View.VISIBLE);
 
 
-
-
-        void  check_Update(){
+            }catch (IOException E){
+                E.printStackTrace();
+            }
+        }
+    }
+    //
+    public  String ConvertingBitmapToString (){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        Imagebyte = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(Imagebyte,Base64.DEFAULT);
+    }
+    // metode Meminta ijin sebelum masuk kedalam galerry
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case FILE_ACCESS_REQUES_CODE:
+                if(grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED){
+                    //permision granted
+                }
+                break;
+        }
+    }
+    void  check_Update(){
        Bundle extras = getIntent().getExtras();
        if (extras == null){
            return;
@@ -239,7 +263,11 @@ public class Tambah_Dosen extends AppCompatActivity {
        alamat_dosen.setText(extras.getString("alamat"));
        gelar_dosen.setText(extras.getString("gelar"));
        email_dosen.setText(extras.getString("email"));
-       foto_dosen.setText(extras.getString("foto"));
+      // foto_dosen.setText(extras.getString("foto"));
+        Image = extras.getString("foto");
+        Picasso.with(Tambah_Dosen.this)
+                .load("https://kpsi.fti.ukdw.ac.id/progmob/" +extras.getString("foto"))
+                .into(part_image);
 
     }
 
