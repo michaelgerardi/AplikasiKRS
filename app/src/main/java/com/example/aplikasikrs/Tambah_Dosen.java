@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
@@ -108,7 +109,24 @@ public class Tambah_Dosen extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
+                if(nama_dosen.getText().toString().length() ==0){
+                    nama_dosen.setError("Input data anda salah !");
+                }
+                if (nidn_dosen.getText().toString().length() == 0){
+                    nidn_dosen.setError("Input data anda salah");
+                }
+                if (gelar_dosen.getText().toString().length() == 0){
+                    gelar_dosen.setError("Input data anda salah !");
+                }
+                if (alamat_dosen.getText().toString().length() == 0 ){
+                    alamat_dosen.setError("Input data anda salah!");
+                }
+                if (email_dosen.getText().toString().length()==0){
+                    email_dosen.setError("Input data anda salah");
+                }
+                if (foto_dosen.getText().toString().length()==0){
+                    foto_dosen.setError("Input data anda salah");
+                }
                 if (!isUpdate){
                     AlertDialog.Builder builder = new AlertDialog.Builder(Tambah_Dosen.this);
                     builder.setMessage("Apakahh anda yakin untuk menyimpan ??")

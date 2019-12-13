@@ -1,6 +1,23 @@
 package com.example.aplikasikrs.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 public class Mahasiswa {
+
+
+    @SerializedName("nim_mhs")
+    @Expose
+    private String NIM;
+    @SerializedName("nama_mhs")
+    @Expose
+    private String Nama;
+    @SerializedName("alamat_mhs")
+    @Expose
+    private String Alamat;
+    @SerializedName("email_mhs")
+    @Expose
+    private String Email;
+
     public String getNIM() {
         return NIM;
     }
@@ -33,25 +50,36 @@ public class Mahasiswa {
         Email = email;
     }
 
-    public int getGambar() {
+    public String getGambar() {
         return Gambar;
     }
 
-    public void setGambar(int gambar) {
+    public void setGambar(String gambar) {
         Gambar = gambar;
     }
 
-    public Mahasiswa(String NIM, String nama, String alamat, String email, int gambar) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Mahasiswa(String NIM, String nama, String alamat, String email, String gambar, String id) {
         this.NIM = NIM;
         Nama = nama;
         Alamat = alamat;
         Email = email;
         Gambar = gambar;
+        this.id = id;
     }
 
-    private String NIM;
-    private String Nama;
-    private String Alamat;
-    private String Email;
-    private int Gambar;
+    @SerializedName("gambar_mhs")
+    @Expose
+    private String Gambar;
+
+    @SerializedName("id_mahasiswa")
+    @Expose
+    private  String id;
 }

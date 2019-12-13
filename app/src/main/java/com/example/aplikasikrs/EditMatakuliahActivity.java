@@ -50,7 +50,7 @@ public class EditMatakuliahActivity extends AppCompatActivity {
                     { Toast.makeText(EditMatakuliahActivity.this, "Tidak Menyimpan", Toast.LENGTH_SHORT).show(); } })
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int which)
                     { Toast.makeText(EditMatakuliahActivity.this, "Behasil Menyimpan !!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(EditMatakuliahActivity.this,DaftarIsiActivity.class);
+                        Intent intent = new Intent(EditMatakuliahActivity.this,MatakuliahActivity.class);
                         startActivity(intent);
                     }});
             AlertDialog dialog = builder.create(); dialog.show();

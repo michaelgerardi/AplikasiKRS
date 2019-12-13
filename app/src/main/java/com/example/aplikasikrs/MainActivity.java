@@ -22,10 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnmasuk = findViewById(R.id.Signin);
         btnmasuk.setOnClickListener(myBtnLoginClick);
 
-
     }
-
-
 
     private View.OnClickListener myBtnLoginClick = new View.OnClickListener() {
         @Override

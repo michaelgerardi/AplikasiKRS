@@ -2,6 +2,7 @@ package com.example.aplikasikrs.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,16 @@ import java.util.ArrayList;
 public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.ViewHolder> {
     ArrayList<Mahasiswa> MahasiswaArrayList;
     private Context context;
-    public MahasiswaAdapter(  ArrayList<Mahasiswa> mahasiswaArrayLista) {
+
+    public MahasiswaAdapter(ArrayList<Mahasiswa> mahasiswaArrayLista) {
         MahasiswaArrayList = mahasiswaArrayLista;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.card_crud_mahasiswa,parent,false);
+        View view = layoutInflater.inflate(R.layout.card_crud_mahasiswa, parent, false);
         context = parent.getContext();
         return new ViewHolder(view);
 
@@ -43,7 +46,7 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.View
         mahasiswa.cd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(context !=null){
+                if (context != null) {
                     Intent intent = new Intent(context, EditMahasiswa.class);
                     context.startActivity(intent);
                 }
@@ -54,14 +57,16 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.View
     @Override
     public int getItemCount() {
 
-        return (MahasiswaArrayList !=null) ? MahasiswaArrayList.size():0;
+        return (MahasiswaArrayList != null) ? MahasiswaArrayList.size() : 0;
     }
 
-    public  class  ViewHolder extends RecyclerView.ViewHolder{
-        private TextView txtNim,txtNama,txtAlamat,txtEmail;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+
+        private TextView txtNim, txtNama, txtAlamat, txtEmail;
         private ImageView Gambar;
         private CardView cd;
-        public ViewHolder(View view){
+
+        public ViewHolder(View view) {
             super(view);
             txtNim = view.findViewById(R.id.txt_nim_mhs);
             txtNama = view.findViewById(R.id.txt_nama_mhs);
@@ -69,5 +74,12 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.View
             txtAlamat = view.findViewById(R.id.txt_alamat_mhs);
             cd = view.findViewById(R.id.CV_Mahasiswa);
         }
+        @Override
+        public  void onCreateContextMenu(ContextMenu Menu, View view, ContextMenu.ContextMenuInfo contextMenuInfo){
+            Menu.setHeaderTitle("Silahkan Pilih");
+            Menu.add(this.getAdapterPosition(),view.getId(),0,"Ubah data mahasiswa ");
+            Menu.add(this.getAdapterPosition(),view.getId(),0,"Delete data mahasiswa ");
+        }
+
     }
 }
